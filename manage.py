@@ -3,11 +3,11 @@ from typer import Typer
 app = Typer()
 
 @app.command('createuser')
-def create_user():
+def create_user(username: str, password: str):
     pass
 
 @app.command('createsuperuser')
-def create_superuser():
+def create_superuser(username: str, password: str):
     pass
 
 @app.command('makemigrations')
