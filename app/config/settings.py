@@ -1,3 +1,4 @@
+from functools import lru_cache
 from typing import Literal
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy import URL
@@ -25,6 +26,7 @@ class Settings(BaseSettings):
     s3_access_key: str
     s3_secret_key: str
     s3_bucket: str
+    s3_secure: bool = True
 
     access_control_allow_origins: str
     access_control_allow_methods: str
@@ -62,3 +64,8 @@ class Settings(BaseSettings):
     @property
     def allow_credentials(self) -> bool:
         return self.access_control_allow_credentials
+
+
+@lru_cache
+def get_settings() -> Settings:
+    return Settings()

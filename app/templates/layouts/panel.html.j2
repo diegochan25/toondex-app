@@ -1,0 +1,16 @@
+{% extends layout('base.html.j2') %}
+
+{% block body %}
+<div class="w-screen h-screen flex items-stretch">
+    {% include partial('_sidebar.html.j2') %}
+    <div class="flex-1 flex flex-col">
+        {% include partial('_header.html.j2') %}
+        <div class="flex-1 flex flex-col p-8">
+            <div class="flex-1 flex flex-col gap-6">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

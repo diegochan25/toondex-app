@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import create_async_engine
-from app.dependencies import get_settings
+from app.config.settings import get_settings
 
 settings = get_settings()
 
@@ -11,7 +11,7 @@ engine = create_async_engine(
     pool_timeout=30,
     pool_recycle=1800,
     pool_pre_ping=True,
-    connet_args={
+    connect_args={
         'command_timeout': 60
     }
 )

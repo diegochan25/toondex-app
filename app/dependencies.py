@@ -1,18 +1,13 @@
-from functools import lru_cache
 from logging import getLogger
 from typing import Annotated
 from fastapi import Depends, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.config.db import engine
-from app.config.settings import Settings
+from app.config.settings import Settings, get_settings
 from app.schemas.internal import ClientInfo, PaginationParams
 
 
 logger = getLogger(__name__)
-
-@lru_cache
-def get_settings():
-    return Settings()
 
 settings = get_settings()
 
@@ -24,7 +19,6 @@ async def get_session():
     except Exception as e:
         logger.exception(e)
         await session.rollback()
-
 
 async def get_client_info(request: Request):
     if settings.trust_proxy:
