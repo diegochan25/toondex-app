@@ -1,0 +1,15 @@
+{% macro click_to_view(url, alt='') %}
+    <div class="contents" x-data="{ open: false }">
+        <div class="fixed inset-0 flex justify-center items-center z-50 bg-black/60" x-show="open" x-transition.opacity>
+            <button class="absolute top-4 right-4" x-on:click="open = false">
+                <i data-lucide="x" class="size-7 text-white"></i>
+            </button>
+            <figure class="max-w-[80vw] max-h-[80vh]">
+                <img src="{{ url }}" alt="{{ alt }}" class="max-w-full max-h-full w-auto h-auto object-contain">
+            </figure>
+        </div>
+        <button class="hover:brightness-65 duration-150" x-on:click="open = true">
+            <img src="{{ url }}" alt="{{ alt }}" class="object-cover object-center">
+        </button>
+    </div>
+{% endmacro %}

@@ -9,10 +9,12 @@
         integrity="sha384-H5SrcfygHmAuTDZphMHqBJLc3FhssKjG7w/CeCpFReSfwBWDTKpkzPP8c+cLsK+V"
         crossorigin="anonymous"
     ></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="/static/css/output.css">
     <title>{% block title %}ToonDex Admin{% endblock %}</title>
 </head>
-<body>
-{% block body %}
-{% endblock %}
+<body x-init="lucide.createIcons()">
+    {% block body %}
+    {% endblock %}
 </body>
 </html>

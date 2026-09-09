@@ -247,6 +247,22 @@ wheels = [
 ]
 
 [[package]]
+name = "fastapi-tailwind"
+version = "2.0.4a1"
+source = { registry = "https://pypi.org/simple" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8f/25/65d75ea5755f6bb434792c65b6dc5a3bfd431337c534bb69062061c47769/fastapi_tailwind-2.0.4a1-py3-none-macosx_10_9_arm64.whl", hash = "sha256:f66285ed4110c70eb8f76fe79babbfdee0f9347ad3772361aa98bc5840bc824a", size = 27435032, upload-time = "2025-07-10T01:26:24.178Z" },
+    { url = "https://files.pythonhosted.org/packages/0b/5d/54e1b4abe96a713b187519246f92c4d006b3e6b1c4fdc6729cb3ad5f3fbf/fastapi_tailwind-2.0.4a1-py3-none-macosx_10_9_x86_64.whl", hash = "sha256:9b7d6a353fcd3ce2801d3fab92ea4c6aa885fd5fc8f422995d6dc9ba301f0bec", size = 29026594, upload-time = "2025-07-10T01:26:28.051Z" },
+    { url = "https://files.pythonhosted.org/packages/22/8d/7181b1082b8543c19e55fc7b984aebae41b6ea8a935dc5d8425c4fd88932/fastapi_tailwind-2.0.4a1-py3-none-macosx_11_0_arm64.whl", hash = "sha256:7fface9db6e857c4f6fee911d105ad8fc122182c49b47a9eca1c69402b8fa4aa", size = 27435031, upload-time = "2025-07-10T01:26:33.198Z" },
+    { url = "https://files.pythonhosted.org/packages/2e/ea/fffb59b7fb84c73434a58faddf82ebeeb362656c25f1dc75d17ad49afa60/fastapi_tailwind-2.0.4a1-py3-none-macosx_11_0_x86_64.whl", hash = "sha256:41f6ca75d3b2b8f71ae79f8e43df7827d13fce97cf2d1eef1349aba5d8ae34fa", size = 29026593, upload-time = "2025-07-10T01:26:36.428Z" },
+    { url = "https://files.pythonhosted.org/packages/41/67/8f5b2fcbcc646de44244528a654b52bda6677fc3b51030b62274e15285eb/fastapi_tailwind-2.0.4a1-py3-none-manylinux2014_aarch64.whl", hash = "sha256:3156edfff1a1375ef0b825267f793fa0eabf68c9c0ff36535ccadc5a99bfe416", size = 42897865, upload-time = "2025-07-10T01:26:40.471Z" },
+    { url = "https://files.pythonhosted.org/packages/fe/d9/e11c8b37d9298119769bb8dabdd2b1e186434c1514049a12985eb71d65d1/fastapi_tailwind-2.0.4a1-py3-none-manylinux2014_x86_64.whl", hash = "sha256:1d72cb949c7f509e67e0424daee365b4640e7c1a087f29430d643468bc41376c", size = 44681236, upload-time = "2025-07-10T01:26:45.062Z" },
+    { url = "https://files.pythonhosted.org/packages/94/24/c050046ab35d06959e1144615d5ffdc1707af197886e63b35ce6f46adbd7/fastapi_tailwind-2.0.4a1-py3-none-musllinux_1_2_aarch64.whl", hash = "sha256:5e16efe827ba44d45a59b195d59a6f17d120cb4394069477e831fbd574802fcc", size = 40838788, upload-time = "2025-07-10T01:26:49.459Z" },
+    { url = "https://files.pythonhosted.org/packages/95/36/aa5a939b31bf88bf48f18bbeb2ca7bbb31d28b96fd7235093f8c59c92cb0/fastapi_tailwind-2.0.4a1-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:3934b63e2bf23b42a3cdf6b97a8f17d2ff3ac20d7a011f054e2d6cc8287cd4ce", size = 42289518, upload-time = "2025-07-10T01:26:53.659Z" },
+    { url = "https://files.pythonhosted.org/packages/26/76/a857b0407ce71a43ce15683383d99eac0167f61294e6387c524b9abfd7f9/fastapi_tailwind-2.0.4a1-py3-none-win_amd64.whl", hash = "sha256:374cc85380e7030e1a12dc7e0b73b65c0ca504d573f0209b2b6f41294b313c69", size = 45700405, upload-time = "2025-07-10T01:26:58.156Z" },
+]
+
+[[package]]
 name = "greenlet"
 version = "3.5.5"
 source = { registry = "https://pypi.org/simple" }
@@ -625,6 +641,7 @@ dependencies = [
     { name = "asyncpg" },
     { name = "boto3" },
     { name = "fastapi" },
+    { name = "fastapi-tailwind" },
     { name = "jinja2" },
     { name = "pydantic-settings" },
     { name = "python-dateutil" },
@@ -645,6 +662,7 @@ requires-dist = [
     { name = "asyncpg", specifier = ">=0.31.0" },
     { name = "boto3", specifier = ">=1.43.89" },
     { name = "fastapi", specifier = ">=0.141.1" },
+    { name = "fastapi-tailwind", specifier = ">=2.0.4a1" },
     { name = "jinja2", specifier = ">=3.1.6" },
     { name = "pydantic-settings", specifier = ">=2.15.0" },
     { name = "python-dateutil", specifier = ">=2.9.0.post0" },

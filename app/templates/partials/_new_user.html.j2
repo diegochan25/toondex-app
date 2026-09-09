@@ -1,0 +1,44 @@
+<div
+    class="fixed inset-0 z-50 flex justify-center items-center backdrop-brightness-75 backdrop-blur-xs"
+    x-show="showForm"
+    x-on:click="showForm = false"
+    x-transition:enter="duration-200"
+    x-transition:enter-start="opacity-0 -translate-y-4"
+    x-transition:enter-end="opacity-100 translate-y-0"
+    x-transition:leave="duration-200"
+    x-transition:leave-start="opacity-100 translate-y-0"
+    x-transition:leave-end="opacity-0 -translate-y-4"
+>
+    <div class="bg-white rounded-xl w-lg min-h-0 h-max overflow-y-auto max-h-[80vh] shadow-sm shadow-app-neutral-600">
+        <div class="p-4 flex items-center gap-4">
+            <div class="rounded-lg flex justify-center items-center p-2 bg-app-primary-50">
+                <i data-lucide="user-plus" class="size-7 text-app-action"></i>
+            </div>
+            <div class="flex-1">
+                <h2 class="text-lg font-semibold">New usuer</h2>
+                <p class="text-app-ink-200">Will be prompted to create a password on first login.</p>
+            </div>
+        </div>
+        <hr class="border-t border-app-neutral-400">
+        <form class="p-4">
+            <fieldset class="grid grid-cols-2 gap-4">
+                <legend class="text-xs font-semibold uppercase text-app-ink-100">General information</legend>
+                <div>
+                    <label for="" class="block text-sm text-app-ink-200"></label>
+                    <div>
+                        <input type="text">
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="grid grid-cols-2 gap-4">
+                <legend class="text-xs font-semibold uppercase text-app-ink-100">Profile details</legend>
+                <div>
+                    <label for="" class="block text-sm text-app-ink-200"></label>
+                    <div>
+                        <input type="text">
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>

@@ -1,2 +1,39 @@
-<aside>
+{% from macro('_click_to_view.html.j2') import click_to_view %}
+
+<aside class="flex flex-col gap-4 w-80 h-full bg-white border-r border-app-neutral-400 shadow-xs shadow-neutral-200 py-2">
+    <div class="w-full px-4 py-2">
+        <h1 class="text-xl font-semibold">Admin Panel</h1>
+    </div>
+    <nav class="flex-1 flex flex-col gap-1 px-4">
+        <a 
+            href="/admin/users/"
+            class="p-2 rounded-lg duration-150 {% if request.url.path == '/admin/users/' %}bg-app-primary-50 text-app-primary-800 font-medium{% else %}hover:bg-app-neutral-200{% endif %} flex items-center gap-2"
+        >
+            <i data-lucide="user" class="size-4"></i>
+            <span>Users</span>
+        </a>
+        <a 
+            href="/admin/series/"
+            class="p-2 rounded-lg duration-150 {% if request.url.path == '/admin/series/' %}bg-app-primary-50 text-app-primary-800 font-medium{% else %}hover:bg-app-neutral-200{% endif %} flex items-center gap-2"
+        >
+            <i data-lucide="book-open" class="size-4"></i>
+            <span>Series</span>
+        </a>
+    </nav>
+    <figure class="w-full border-t border-app-neutral-400 flex items-center gap-2 p-4">
+        {# @TODO replace with session #}
+        <picture class="size-12 rounded-full overflow-hidden flex justify-center items-center bg-app-neutral-300">
+            {{ click_to_view('/static/img/linkProfilePicture.png', 'Diego Chan\'s profile') }}
+            {# <img src="" alt="Diego Chan's profile" class="object-cover object-center"> #}
+        </picture>
+        <figcaption class="flex-1 flex flex-col gap-1">
+            <h3 class="flex-1 font-semibold uppercase">Diego Chan</h3>
+            <span class="text-app-ink-200 font-medium text-sm uppercase">admin</span>
+        </figcaption>
+        <button class="p-1 rounded-lg hover:bg-app-neutral-200 duration-150">
+            <i data-lucide="log-out" class="size-5 text-app-ink-200"></i>
+        </button>
+    </figure>
 </aside>
+
+

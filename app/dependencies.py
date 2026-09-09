@@ -1,6 +1,6 @@
 from logging import getLogger
 from typing import Annotated
-from fastapi import Depends, Request
+from fastapi import Depends, Form, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.config.db import engine
 from app.config.settings import Settings, get_settings
@@ -19,6 +19,8 @@ async def get_session():
     except Exception as e:
         logger.exception(e)
         await session.rollback()
+        raise RuntimeError('An error occurred during a database session.') from e
+
 
 async def get_client_info(request: Request):
     if settings.trust_proxy:
@@ -36,9 +38,14 @@ async def get_client_info(request: Request):
 
 
 async def get_pagination(request: Request):
-    page = request.query_params.get('page')
-    limit = request.query_params.get('limit')
-    return PaginationParams(page=page, limit=limit)
+    params = PaginationParams()
+
+    if (page := request.query_params.get('page')):
+        params.page = page
+    if (limit := request.query_params.get('limit')):
+        params.limit = limit
+        
+    return params
 
 
 RequiresDB = Annotated[AsyncSession, Depends(get_session)]
@@ -48,3 +55,5 @@ RequiresSettings = Annotated[Settings, Depends(get_settings)]
 RequiresClientInfo = Annotated[ClientInfo, Depends(get_client_info)]
 
 RequiresPagination = Annotated[PaginationParams, Depends(get_pagination)]
+
+type FromForm[T] = Annotated[T, Form()]

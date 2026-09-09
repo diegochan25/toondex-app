@@ -41,7 +41,7 @@ class Series(Base):
     status: Mapped[CompletionStatus] = mapped_column(Enum(CompletionStatus), default=CompletionStatus.Draft)
     thumbnail_key: Mapped[str | None] = mapped_column(String)
     banner_key: Mapped[str | None] = mapped_column(String)
-    reading_direction: Mapped[ReadingDirection] = mapped_column(ReadingDirection)
+    reading_direction: Mapped[ReadingDirection] = mapped_column(Enum(ReadingDirection))
 
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
@@ -127,7 +127,7 @@ class EpisodeReaderMedia(Base):
     __tablename__ = 'episode_reader_media'
 
     episode_id: Mapped[UUID] = mapped_column(ForeignKey('series_episodes.id', ondelete='CASCADE'))
-    episode: Mapped[SeriesCollection] = relationship(back_populates='media')
+    episode: Mapped[SeriesEpisode] = relationship(back_populates='media')
 
     id: Mapped[UUID] = mapped_column(SQLUUID(as_uuid=True), primary_key=True, default=uuid4)
     key: Mapped[str] = mapped_column(String)

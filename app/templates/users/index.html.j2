@@ -1,8 +1,37 @@
 {% extends layout('panel.html.j2') %}
 {% set heading = 'Users' %}
-
 {% block title %}User list | ToonDex Admin{% endblock %}
 
 {% block content %}
-
+<div class="w-full max-w-7xl mx-auto" x-data="{showForm: true}"> {# TODO make false once finished. #}
+    {% include partial('_new_user.html.j2') %}
+    <div class="w-full flex items-stretch">
+        <div class="flex-1 flex items-stretch gap-2">
+            <div class="w-sm bg-white border border-app-neutral-400 outline-2 outline-transparent has-focus:outline-app-info-200 duration-150 rounded-lg flex items-center gap-2 px-2 py-1" x-data="{message: ''}">
+                <i data-lucide="search" class="size-4 text-app-ink-100"></i>
+                <input 
+                    type="text" 
+                    name="query" 
+                    id="query" 
+                    class="flex-1 focus:outline-0" 
+                    x-model="message"
+                    placeholder="Search users..."
+                >
+                <button x-show="message" x-on:click="message = ''">
+                    <i data-lucide="x" class="size-4"></i>
+                </button>
+            </div>
+            <button class="rounded-lg flex justify-center items-center px-2 bg-white border border-app-neutral-400">
+                <i data-lucide="rotate-ccw" class="size-4 text-app-ink-200"></i>
+            </button>
+        </div>
+        <button
+            class="flex items-center gap-2 text-white bg-app-action hover:bg-app-info-700 duration-150 rounded-lg px-3 py-2 font-semibold"
+            x-on:click="showForm = true"
+        >
+            <i data-lucide="plus" class="size-4"></i>
+            New user
+        </button>
+    </div>
+</div>
 {% endblock %}

@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     secret_key: str
 
     app_host: str
-    app_port: str
+    app_port: int
     log_level: Literal['debug', 'trace', 'info', 'warn', 'warning', 'error', 'fatal', 'critical']
 
     db_driver: str = 'postgresql+asyncpg'
