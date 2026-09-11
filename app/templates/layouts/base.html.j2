@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/static/css/output.css">
     <title>{% block title %}ToonDex Admin{% endblock %}</title>
 </head>
-<body x-init="lucide.createIcons()">
+<body x-data x-init="$nextTick(() => lucide.createIcons())">
     {% block body %}
     {% endblock %}
 </body>

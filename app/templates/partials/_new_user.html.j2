@@ -1,3 +1,4 @@
+{# begin overlay #}
 <div
     class="fixed inset-0 z-50 flex justify-center items-center backdrop-brightness-75 backdrop-blur-xs"
     x-show="showForm"
@@ -9,36 +10,227 @@
     x-transition:leave-start="opacity-100 translate-y-0"
     x-transition:leave-end="opacity-0 -translate-y-4"
 >
-    <div class="bg-white rounded-xl w-lg min-h-0 h-max overflow-y-auto max-h-[80vh] shadow-sm shadow-app-neutral-600">
+    {# begin dialog #}
+    <div 
+        class="relative bg-white rounded-xl w-xl min-h-0 h-max overflow-y-auto max-h-[80vh] shadow-sm shadow-app-neutral-600"
+        x-on:click.stop
+    >
+        <button 
+            class="absolute top-4 right-4 p-0.5 rounded-lg hover:bg-app-neutral-200 duration-150"
+            x-on:click="showForm = false"
+        >
+            <i data-lucide="x" class="size-5 text-app-ink-200"></i>
+        </button>
         <div class="p-4 flex items-center gap-4">
             <div class="rounded-lg flex justify-center items-center p-2 bg-app-primary-50">
                 <i data-lucide="user-plus" class="size-7 text-app-action"></i>
             </div>
             <div class="flex-1">
-                <h2 class="text-lg font-semibold">New usuer</h2>
-                <p class="text-app-ink-200">Will be prompted to create a password on first login.</p>
+                <h2 class="text-lg font-semibold">New user</h2>
+                <p class="text-app-ink-200">Will be prompted to create a new password on login.</p>
             </div>
         </div>
         <hr class="border-t border-app-neutral-400">
-        <form class="p-4">
-            <fieldset class="grid grid-cols-2 gap-4">
-                <legend class="text-xs font-semibold uppercase text-app-ink-100">General information</legend>
-                <div>
-                    <label for="" class="block text-sm text-app-ink-200"></label>
-                    <div>
-                        <input type="text">
+        <form method="post" class="contents">
+            <div class="p-4 flex flex-col gap-6">
+                <fieldset class="space-y-4">
+                    <legend class="text-xs font-semibold uppercase text-app-ink-100">General information</legend>
+                    <div class="grid grid-cols-2 gap-4">
+                        {# begin email #}
+                        <div class="space-y-1">
+                            <label for="email" class="block text-sm text-app-ink-200">Email address</label>
+                            <div class="w-full border border-app-neutral-400 rounded-md flex items-center gap-2 px-2 py-1 outline-2 outline-transparent has-focus:outline-app-info-200 duration-150">
+                                <input 
+                                    id="email"
+                                    name="email"
+                                    type="email" 
+                                    placeholder="name@example.com"
+                                    class="flex-1 focus:outline-0"
+                                >
+                            </div>
+                        </div>
+                        {# end email #}
+                        {# begin otp #}
+                        <div class="space-y-1" x-data="{otp: '', visible: false}">
+                            <div class="flex gap-2 items-center">
+                                <label for="otp" class="block text-sm text-app-ink-200">One-time password</label>
+                                <button 
+                                    type="button"
+                                    title="Generate secure password" 
+                                    class="p-0.5 rounded hover:bg-app-neutral-200 duration-150"
+                                    x-on:click="const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789'; const b = new Uint8Array(12); crypto.getRandomValues(b); otp = Array.from(b, x => chars[x % chars.length]).join('')"
+                                >
+                                    <i data-lucide="wand-sparkles" class="size-4 text-app-action"></i>
+                                </button>
+                            </div>
+                            <div class="w-full border border-app-neutral-400 rounded-md flex items-center gap-2 px-2 py-1 outline-2 outline-transparent has-focus:outline-app-info-200 duration-150">
+                                <input
+                                    id="otp"
+                                    name="otp"
+                                    placeholder="Use a secure password"
+                                    x-bind:type="visible ? 'text' : 'password'"
+                                    class="flex-1 min-w-0 focus:outline-0"
+                                    x-model="otp"
+                                >
+                                <button type="button" x-on:click="visible = !visible">
+                                    <span class="contents" x-show="visible">
+                                        <i data-lucide="eye" class="size-3 text-app-action"></i>
+                                    </span>
+                                    <span class="contents" x-show="!visible">
+                                        <i data-lucide="eye-closed" class="size-3 text-app-ink-100"></i>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                        {# end otp #}
+                        {# begin role #}
+                        <div class="space-y-1" x-data="{selected: ''}">
+                            <label for="role" class="block text-sm text-app-ink-200">Role</label>
+                            <select 
+                                name="role" 
+                                id="role" 
+                                class="border border-app-neutral-400 w-full p-2 rounded-md outline-2 outline-transparent focus:outline-app-info-200 duration-150"
+                                x-model="selected"
+                                x-bind:class="selected ? 'text-black' : 'text-app-ink-200'"
+                            >
+                                <option value="" selected disabled hidden>Select a role...</option>
+                                {% for role in roles %}
+                                    <option value="{{ role.value }}">{{ role.value | capitalize }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {# end role #}
+                        {# begin birthdate #}
+                        <div class="space-y-1" x-data="{date: ''}">
+                            <label for="dateOfBirth" class="block text-sm text-app-ink-200">Date of birth</label>
+                            <div class="w-full border border-app-neutral-400 rounded-md flex items-center gap-2 px-2 py-1 outline-2 outline-transparent has-focus:outline-app-info-200 duration-150">
+                                <input 
+                                    id="dateOfBirth"
+                                    name="date_of_birth"
+                                    type="date" 
+                                    x-model="date"
+                                    class="flex-1 focus:outline-0"
+                                    x-bind:class="date ? 'text-black' : 'text-app-ink-200'"
+                                    max="{{ now().date().isoformat() }}"
+                                >
+                            </div>
+                        </div>
+                        {# end birthdate #}
                     </div>
-                </div>
-            </fieldset>
-            <fieldset class="grid grid-cols-2 gap-4">
-                <legend class="text-xs font-semibold uppercase text-app-ink-100">Profile details</legend>
-                <div>
-                    <label for="" class="block text-sm text-app-ink-200"></label>
-                    <div>
-                        <input type="text">
+                </fieldset>
+                <fieldset class="space-y-4">
+                    <legend class="text-xs font-semibold uppercase text-app-ink-100">Profile details</legend>
+                    <div class="grid grid-cols-2 gap-4">
+                        {# begin profile_picture_url #}
+                        <div class="col-span-2 flex flex-col w-full items-center" x-data="{url: '', filename: ''}">
+                            <label for="profilePicture" class="w-full text-sm text-app-ink-200">Profile picture</label>
+                            <figure class="flex flex-col items-center gap-1">
+                                <label for="profilePicture" class="block">
+                                    <picture class="size-24 rounded-full overflow-hidden flex justify-center items-center bg-app-neutral-400 hover:brightness-75 duration-150 cursor-pointer">
+                                        <img x-show="url" x-bind:src="url" alt="new user's profile" class="object-cover object-center">
+                                    </picture>
+                                </label>
+                                <figcaption>
+                                    <p 
+                                        x-text="filename || 'Choose a profile picture...'"
+                                        x-bind:class="filename ? 'text-black' : 'text-app-ink-200'"
+                                    ></p>
+                                </figcaption>
+                                <input 
+                                    id="profilePicture" 
+                                    type="file" 
+                                    accept="image/*" 
+                                    class="hidden"
+                                    x-on:change="url && URL.revokeObjectURL(url); const f = $event.target.files[0]; url = f ? URL.createObjectURL(f) : ''; filename = f ? f.name : ''"
+                                >
+                            </figure>
+                        </div>
+                        {# end profile_picture_url #}
+                        {# begin first_name #}
+                        <div class="space-y-1">
+                            <label for="firstName" class="block text-sm text-app-ink-200">First name</label>
+                            <div class="w-full border border-app-neutral-400 rounded-md flex items-center gap-2 px-2 py-1 outline-2 outline-transparent has-focus:outline-app-info-200 duration-150">
+                                <input 
+                                    id="firstName" 
+                                    name="first_name"
+                                    type="text" 
+                                    placeholder="John"
+                                    class="flex-1 focus:outline-0"
+                                >
+                            </div>
+                        </div>
+                        {# end last_name #}
+                        {# begin last_name #}
+                        <div class="space-y-1">
+                            <label for="lastName" class="block text-sm text-app-ink-200">Last name</label>
+                            <div class="w-full border border-app-neutral-400 rounded-md flex items-center gap-2 px-2 py-1 outline-2 outline-transparent has-focus:outline-app-info-200 duration-150">
+                                <input 
+                                    id="lastName" 
+                                    name="last_name" 
+                                    type="text" 
+                                    placeholder="Doe"
+                                    class="flex-1 focus:outline-0"
+                                >
+                            </div>
+                        </div>
+                        {# end last_name #}
+                        {# begin display_name #}
+                        <div class="space-y-1">
+                            <label for="displayName" class="block text-sm text-app-ink-200">Display name</label>
+                            <div class="w-full border border-app-neutral-400 rounded-md flex items-center gap-2 px-2 py-1 outline-2 outline-transparent has-focus:outline-app-info-200 duration-150">
+                                <input 
+                                    id="displayName" 
+                                    name="display_name" 
+                                    type="text"
+                                    placeholder="coolUsername123"
+                                    class="flex-1 focus:outline-0"
+                                >
+                            </div>
+                        </div>
+                        {# end display_name #}
+                        {# begin gender #}
+                        <div class="space-y-1" x-data="{selected: ''}">
+                            <label for="gender" class="block text-sm text-app-ink-200">Gender</label>
+                            <select 
+                                name="gender" 
+                                id="gender" 
+                                class="border border-app-neutral-400 w-full p-2 rounded-md outline-2 outline-transparent focus:outline-app-info-200 duration-150"
+                                x-model="selected"
+                                x-bind:class="selected ? 'text-black' : 'text-app-ink-200'"
+                            >
+                                <option value="" selected disabled hidden>Select a gender...</option>
+                                {% for gender in genders %}
+                                    <option value="{{ gender.value }}">{{ gender.value | capitalize }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {# end gender #}
                     </div>
-                </div>
-            </fieldset>
+                </fieldset>
+            </div>
+            <hr class="border-t border-app-neutral-400">
+            <div class="p-4 flex justify-end gap-4">
+                {# begin reset #}
+                <button
+                    type="reset"
+                    x-on:click="showForm = false;"
+                    class="rounded-lg px-3 py-2 font-medium flex items-center gap-2 bg-white-400 hover:bg-app-neutral-200 duration-150 border border-app-neutral-400"
+                >
+                    Cancel
+                </button>
+                {# end reset #}
+                {# begin submit #}
+                <button 
+                    type="submit"
+                    class="rounded-lg px-3 py-2 font-medium flex items-center gap-2 bg-app-action hover:bg-app-info-300 duration-150 text-white border border-app-action"
+                >
+                    <i data-lucide="user-plus" class="size-4"></i>
+                    Create user
+                </button>
+                {# end submit #}
+            </div>
         </form>
     </div>
+    {# end dialog #}
 </div>
+{# end overlay #}

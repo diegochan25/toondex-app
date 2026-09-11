@@ -8,6 +8,11 @@ async def find_by_id(db: AsyncSession, id: UUID) -> User | None:
     result = await db.execute(stmt)
     return result.scalar_one_or_none()
 
+async def exists_by_email(db: AsyncSession, email: str) -> bool:
+    stmt = select(1).select_from(User).where(User.email == email)
+    result = await db.execute(stmt)
+    return result.scalar_one_or_none() is not None
+
 async def all(db: AsyncSession, limit: int = 20, offset: int = 0) -> list[User]:
     stmt = select(User).limit(limit).offset(offset)
     result = await db.execute(stmt)

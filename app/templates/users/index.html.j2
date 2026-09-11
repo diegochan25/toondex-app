@@ -3,7 +3,7 @@
 {% block title %}User list | ToonDex Admin{% endblock %}
 
 {% block content %}
-<div class="w-full max-w-7xl mx-auto" x-data="{showForm: true}"> {# TODO make false once finished. #}
+<div class="w-full max-w-7xl mx-auto" x-data="{ showForm: {{ show_form | default('false') }} }">
     {% include partial('_new_user.html.j2') %}
     <div class="w-full flex items-stretch">
         <div class="flex-1 flex items-stretch gap-2">

@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import uvicorn
 from datetime import date, datetime, timezone
 from pathlib import Path
 from alembic import command
@@ -8,22 +9,25 @@ from alembic.script import ScriptDirectory
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from typer import Argument, Typer
+from app.config.settings import get_settings
 from app.config.db import engine
-from app.models.users import User, UserRole
+from app.models.users import User, UserRoles
 
+
+ALEMBIC_INI = Path(__file__).resolve().parent / 'alembic.ini'
 
 app = Typer()
-ALEMBIC_INI = Path(__file__).resolve().parent / 'alembic.ini'
 logger = logging.getLogger(__name__)
+settings = get_settings()
 
 def _alembic_config() -> Config:
     return Config(str(ALEMBIC_INI))
 
 
-async def _new_user(email: str, password: str, role: UserRole):
+async def _new_user(email: str, password: str, role: UserRoles):
     async with AsyncSession(engine) as session:
         try:
-            result = await session.execute(select(User).where(User.email == email))
+            result = await session.execute(select(User).where(User.email_address == email))
             if result.scalar_one_or_none() is not None:
                 logger.warning(f"User with email '{email}' already exists.")
                 return
@@ -38,12 +42,12 @@ async def _new_user(email: str, password: str, role: UserRole):
 
 @app.command('createuser')
 def create_user(email: str, password: str):
-    return asyncio.run(_new_user(email, password, UserRole.Reader))
+    return asyncio.run(_new_user(email, password, UserRoles.Reader))
 
 
 @app.command('createsuperuser')
 def create_superuser(email: str, password: str):
-    return asyncio.run(_new_user(email, password, UserRole.Admin))
+    return asyncio.run(_new_user(email, password, UserRoles.Admin))
 
 
 @app.command('makemigrations')
@@ -60,6 +64,17 @@ def make_migrations(message: str = Argument(None, help='Short description of the
 @app.command('migrate')
 def migrate(revision: str = Argument('head', help='Target revision to migrate to')):
     command.upgrade(_alembic_config(), revision)
+
+@app.command('runserver')
+def run_server():
+    uvicorn.run(
+        'app.main:app',
+        host=settings.app_host,
+        port=settings.app_port,
+        log_level=settings.log_level,
+        reload=settings.python_env == 'development'
+    )
+
 
 
 if __name__ == '__main__':

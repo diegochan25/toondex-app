@@ -1,7 +1,11 @@
 {% extends layout('base.html.j2') %}
+{% from macro('_alert.html.j2') import alert %}
 
 {% block body %}
-<div class="w-full h-screen overflow-hidden flex items-stretch">
+<div class="w-full h-screen overflow-hidden flex items-stretch" x-data="{showAlert: true}">
+    {% if flash %}
+        {{ alert(flash.type, flash.message) }}
+    {% endif %}
     {% include partial('_sidebar.html.j2') %}
     <div class="flex-1 flex flex-col">
         {% include partial('_header.html.j2') %}

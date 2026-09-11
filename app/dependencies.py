@@ -56,4 +56,6 @@ RequiresClientInfo = Annotated[ClientInfo, Depends(get_client_info)]
 
 RequiresPagination = Annotated[PaginationParams, Depends(get_pagination)]
 
-type FromForm[T] = Annotated[T, Form()]
+class FromForm:
+    def __class_getitem__(cls, item):
+        return Annotated[item, Form()]

@@ -1,0 +1,35 @@
+{% macro alert(type, message) %}
+    {% set colors = {
+        'info': {'text': 'text-app-info-300', 'bg': 'bg-app-info-100', 'icon': 'text-app-info-200'},
+        'success': {'text': 'text-app-success-300', 'bg': 'bg-app-success-100', 'icon': 'text-app-success-200'},
+        'warning': {'text': 'text-app-warn-300', 'bg': 'bg-app-warn-100', 'icon': 'text-app-warn-200'},
+        'error': {'text': 'text-app-error-300', 'bg': 'bg-app-error-100', 'icon': 'text-app-error-200'},
+    } %}
+    <div
+        class="fixed top-4 right-4 z-100 flex items-center w-max min-w-md px-3 py-2 rounded  shadow-sm shadow-app-neutral-400 {{ colors[type].bg }} {{ colors[type].text }}"
+        x-show="showAlert"
+        x-transition:enter="duration-200"
+        x-transition:enter-start="opacity-0 translate-x-4"
+        x-transition:enter-end="opacity-100 translate-x-0"
+        x-transition:leave="duration-200"
+        x-transition:leave-start="opacity-100 translate-x-0"
+        x-transition:leave-end="opacity-0 translate-x-4"
+    >
+        <div class="flex-1 flex items-center gap-4">
+            {% if type == 'info' %}
+                <i data-lucide="ckeck" class="size-5 {{ colors[type].icon }}"></i>
+            {% elif type == 'success' %}
+                <i data-lucide="info" class="size-5 {{ colors[type].icon }}"></i>
+            {% elif type == 'warning' %}
+                <i data-lucide="triangle-alert" class="size-5 {{ colors[type].icon }}"></i>
+            {% elif type == 'error' %}
+                <i data-lucide="circle-minus" class="size-5 {{ colors[type].icon }}"></i>
+            {% endif %}
+            <p>{{ message }}</p>
+        </div>
+        <button x-on:click="showAlert = false;">
+            <i data-lucide="x" class="size-5"></i>
+        </button>
+    </div>
+{% endmacro %}
+
